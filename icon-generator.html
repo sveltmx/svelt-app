@@ -1,0 +1,130 @@
+¡Perfecto! 🔥 Ya casi terminamos. Solo falta 1 archivo y activar GitHub Pages.
+📝 ARCHIVO 4 (ÚLTIMO): icon-generator.html
+Este genera los iconos automáticamente:
+html<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Iconos SVELT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ffeef7 0%, #f8e8f5 100%);
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #af6583;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .icon-preview {
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #af6583, #D4A5A5);
+            color: white;
+            font-size: 50px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            box-shadow: 0 10px 20px rgba(175, 101, 131, 0.3);
+        }
+        .download-btn {
+            background: linear-gradient(135deg, #af6583, #D4A5A5);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .sizes {
+            text-align: center;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Generador de Iconos SVELT</h1>
+        
+        <div class="icon-preview">SVELT</div>
+        
+        <div class="sizes">
+            <button class="download-btn" onclick="downloadIcon(192)">📥 icon-192x192.png</button>
+            <button class="download-btn" onclick="downloadIcon(512)">📥 icon-512x512.png</button>
+            <br>
+            <button class="download-btn" onclick="downloadAllIcons()">📦 Descargar Todos los Iconos</button>
+        </div>
+    </div>
+
+    <script>
+        function downloadIcon(size) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#af6583');
+            gradient.addColorStop(1, '#D4A5A5');
+            
+            const cornerRadius = size * 0.1;
+            ctx.fillStyle = gradient;
+            roundRect(ctx, 0, 0, size, size, cornerRadius);
+            ctx.fill();
+            
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size * 0.25}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('SVELT', size / 2, size / 2);
+            
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `icon-${size}x${size}.png`;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+        
+        function downloadAllIcons() {
+            const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+            sizes.forEach((size, index) => {
+                setTimeout(() => downloadIcon(size), index * 200);
+            });
+        }
+        
+        function roundRect(ctx, x, y, width, height, radius) {
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            ctx.lineTo(x + width, y + height - radius);
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            ctx.lineTo(x + radius, y + height);
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+        }
+    </script>
+</body>
+</html>
